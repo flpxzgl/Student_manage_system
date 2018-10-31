@@ -1,0 +1,84 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+string frame_line(string t);
+int gl(string);
+string gs(string,int);
+int main(){
+	
+	int n;
+	cout<<"how many students?"<<endl;
+	cin>>n;
+	cin.ignore();
+	ofstream outputfile;
+	outputfile.open("CS1_student_grade_report.txt");
+	string tile="CS1 student grade report Fall 2018";
+	outputfile<< frame_line(tile);
+	int l=gl(tile);
+	outputfile<<setw((int)((l)*(float)1/5))<<""
+	<<setw((int)((l)*(float)3/5))<<
+	tile<<setw((int)((l)*(float)1/5))
+	<<""<<" |"<<endl;
+	outputfile<< frame_line(tile);
+	outputfile<<setw((int)((l)*(float)1/7))<<gs("sl_n0",2)<<"|"
+	<<setw(((float)1/3)*(int)((l)*(float)5/7))
+	<<""<<setw(((float)1/3)*(int)((l)*(float)5/7))<<"student_name "
+	<<setw(((float)1/3)*(int)((l)*(float)5/7))
+	<<"|"<<setw((int)((l)*(float)1/7))<<gs("Grade",2)<<"|"<<endl;
+	frame_line(tile);
+	
+	for(int i=0;i<n;i++){
+	string name;
+	cout<<"what is the name of Student:"<<gs("",1)<<i+1<<"?"<<endl;
+	getline(cin, name);
+	cout<<"what is the grade of student:"<<gs("",1)<<i+1<<"?(A,B,C,D,F)"<<endl;
+	string grade;
+	cin>>grade;
+	cin.ignore();
+	stringstream ss;
+	ss<<i+1;
+	string is=ss.str();
+	
+	outputfile<<setw((int)((l)*(float)1/7))<<gs(is,(((float)1/2)*((int)((l)*(float)1/7))))
+	<<"|"<<setw(((float)5/6)*(int)((l)*(float)5/7))
+	<<gs(name,(((float)5/6)*(int)((l)*(float)5/7))-(name.size()+1) )
+	<<setw(((float)1/6)*(int)((l)*(float)5/7))
+	<<"|"<<setw((int)((l)*(float)1/7))<<gs(grade,(((float)1/2)*((int)((l)*(float)1/7))))<<"|"<<endl;
+
+}
+
+	cout<<"Display the demo from the CS1_student_grade_report.txt"<<endl;
+	outputfile<<frame_line(tile);
+	outputfile.close();
+	ifstream inputfile ("CS1_student_grade_report.txt");
+	stringstream buffer;  
+	buffer << inputfile.rdbuf();  
+	string contents=buffer.str();
+	cout<<contents;
+	return 0;
+}
+string frame_line(string t){
+	string name="";
+	int line_length=2*t.size();
+	for(int i=0;i<line_length;i++){
+		name+='-';
+	}
+	name+='\n';
+	return name;
+
+}
+int gl(string t){
+return 2*t.size();
+}
+string gs(string name, int t){
+	for (int i = 0; i < t ; i++)
+	{
+		name+=" ";
+	}
+
+	return name;
+}
